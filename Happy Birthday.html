@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Pacifico", serif;
+            text-align: center;
+            background-color: #ffe6f2;
+            color: #d63384;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        title, h1, #letter, .gallery-section, .surprise-button {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #ff0080;
+            text-shadow: 2px 2px 10px rgba(255, 168, 229, 0.795);
+        }
+        p {
+            font-size: 1.2em;
+            color: #f360a4;
+            text-shadow: 2px 2px 10px rgba(255, 190, 250, 0.795);
+        } 
+        h2 {
+            font-size: 1.5em;
+            color: #f360a4;
+            text-shadow: 2px 2px 10px rgba(255, 190, 250, 0.795);
+        }
+        .heart {
+            color: rgb(212, 0, 255);
+            font-size: 50px;
+            animation: heartbeat 1s infinite alternate;
+        }
+        @keyframes heartbeat {
+            from { transform: scale(1); }
+            to { transform: scale(1.2); }
+        }
+
+        #letter {
+            background: white;
+            padding: 20px;
+            width: 80%;
+            max-width: 900px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+        }
+        #letter:hover {
+            transform: scale(1.05);
+        }
+        .gallery-section {
+            margin-top: 10px;
+        }
+        .gallery-title {
+            font-size: 2em;
+            color: #ff0080;
+            text-shadow: 2px 2px 10px rgba(255, 168, 229, 0.795);
+            margin-bottom: -5px;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .gallery img {
+            width: 100%;
+            max-width: 320px;
+            height: auto;
+            margin: 10px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .heart-float {
+            position: absolute;
+            bottom: 0;
+            font-size: 30px;
+            color: rgb(247, 0, 255);
+            animation: floatUp 5s linear infinite;
+        }
+        @keyframes floatUp {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        /* Floating Play Button */
+        .play-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ff1493;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            width: 60px;
+            height: 60px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 0, 102, 0.8);
+            transition: transform 0.2s ease-in-out;
+        }
+        .play-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Surprise Button */
+        .surprise-button {
+            background-color: #ffb5da;
+            color: white;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            margin-top: 20px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 83, 152, 0.8);
+            transition: all 0.3s ease-in-out;
+        }
+        .surprise-button:hover {
+            background-color: #fd78ad;
+            transform: scale(1);
+        }
+
+        /* Valentine Popup */
+            .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(255, 0, 102, 0.8);
+            text-align: center;
+            z-index: 1000;
+            width: 300px;
+        }
+        .popup h2 {
+            color: #ff0080;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+        .popup-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .popup-buttons button {
+            font-size: 1.2em;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .yes-button {
+            background-color: #ff66b2;
+            color: white;
+        }
+        .yes-button:hover {
+            background-color: #ff3385;
+        }
+        .no-button {
+            background-color: #ddd;
+            color: black;
+        }
+        .no-button:hover {
+            background-color: #bbb;
+        }
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Confetti Animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #ff66b2;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: fall 3s linear infinite;
+        }
+        @keyframes fall {
+            from { transform: translateY(-10vh); opacity: 1; }
+            to { transform: translateY(100vh); opacity: 0; }
+        }
+
+        /* Sad Emoji */
+        .sad-emoji {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 100px;
+            color: #ff0000;
+            z-index: 1001;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="header"><h1>Happy Birthday Luci<span class="heart">❤️</span></h1></div>
+
+    <div id="letter">
+        <h2>A Special Day for a Special Girl</h2>
+        <p>
+            Happy 23rd Birthday Luci!<br>
+            I didn't know what to do for your birthday, so I made you this little website.<br> 
+            You are such a beautiful girl, and you work extremely hard. I'm genuinely very impressed and proud of you.
+            <br>I wish you all the best, I hope this year of your life is the best yet to come, and things only get better for you.  
+            <br>I hope you have an amazing birthday, and get whatever you wish for!
+        </p>
+    </div>
+
+    <div class="gallery-section">
+        <h2 class="gallery-title">Silliy Moments With You</h2>
+        <div class="gallery">
+            <img src="https://i.imgur.com/CFFwbiQ.png" alt="Memory 1">
+            <img src="https://i.imgur.com/Z1HQHl6.png" alt="Memory 2">
+            <img src="https://i.imgur.com/5vcFo7A.png" alt="Memory 3">
+        </div>
+    </div>
+
+    <div class="floating-hearts"></div>
+
+    <!-- Surprise Button -->
+    <button class="surprise-button" onclick="showPopup()">click for a surprise...</button>
+
+    <!-- Valentine Popup -->
+    <div class="popup-overlay" id="popup-overlay"></div>
+    <div class="popup" id="valentine-popup">
+        <h2>Will You Be My Valentine?</h2>
+        <div class="popup-buttons">
+            <button class="yes-button" onclick="showConfetti()">Yes :)</button>
+            <button class="no-button" onclick="showSadEmoji()">No :(</button>
+        </div>
+    </div>
+
+    <!-- Sad Emoji -->
+    <div class="sad-emoji" id="sad-emoji">😢</div>
+    <!-- Audio Player (Starts Paused) -->
+    <audio id="background-music" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Play Button -->
+    <button class="play-button" onclick="toggleMusic()">▶️</button>
+
+<script>
+
+            // Delayed fade-in effect
+            function fadeInElement(element, delay) {
+            setTimeout(() => {
+                element.style.opacity = "1";
+                element.style.transform = "translateY(0)";
+            }, delay);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            fadeInElement(document.querySelector("#header h1"), 1000);
+            fadeInElement(document.getElementById("letter"), 2000);
+            fadeInElement(document.querySelector(".gallery-section"), 3000);
+            fadeInElement(document.querySelector(".surprise-button"), 4000);
+        });
+        
+        // Floating Hearts Effect
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart-float");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+            document.querySelector(".floating-hearts").appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+
+        setInterval(createHeart, 500);
+
+        // Handle music play with button click
+        function toggleMusic() {
+            const audio = document.getElementById("background-music");
+            if (audio.paused) {
+                audio.volume = 0.2;
+                audio.play();
+                document.querySelector(".play-button").textContent = "⏸️";
+            } else {
+                audio.pause();
+                document.querySelector(".play-button").textContent = "▶️";
+            }
+        }
+
+         // Show the popup
+         function showPopup() {
+            document.getElementById("valentine-popup").style.display = "block";
+            document.getElementById("popup-overlay").style.display = "block";
+        }
+
+        // Show confetti on "Yes"
+        function showConfetti() {
+            document.getElementById("valentine-popup").style.display = "none";
+            document.getElementById("popup-overlay").style.display = "none";
+
+            for (let i = 0; i < 50; i++) {
+                let confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+                confetti.style.left = Math.random() * 100 + "vw";
+                confetti.style.animationDuration = Math.random() * 3 + 2 + "s";
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`; // Random colors
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        // Show big sad emoji on "No"
+        function showSadEmoji() {
+            document.getElementById("valentine-popup").style.display = "none";
+            document.getElementById("popup-overlay").style.display = "none";
+
+            let sadEmoji = document.getElementById("sad-emoji");
+            sadEmoji.style.display = "block";
+
+            setTimeout(() => {
+                sadEmoji.style.display = "none";
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>
